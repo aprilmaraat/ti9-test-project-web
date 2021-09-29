@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
       this.client.browser = this.getBrowser();
       this.client.onlineStatus = true;
       // this.client.osVersion = window.navigator.appVersion;
+      this.client.localTime = moment(new Date()).format('hh:mm a');
       this.client.resolution = this.getScreenSize();
       this.client.timeZone = moment(new Date()).format('Z');
       this.clientService.post(this.client, '').subscribe(data => {
@@ -52,10 +53,10 @@ export class MainComponent implements OnInit {
     });
   }
 
-  getLocalTime(){
-    var localDate = new Date();
-    return moment(localDate).format('hh:mm a');
-  }
+  // getLocalTime(){
+  //   var localDate = new Date();
+  //   return moment(localDate).format('hh:mm a');
+  // }
 
   // Browser size
   getScreenSize() {
@@ -64,6 +65,7 @@ export class MainComponent implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {
+    this.client.localTime = moment(new Date()).format('hh:mm a');
     this.client.onlineStatus = false;
     this.clientService.put(this.client, '').subscribe();
   }

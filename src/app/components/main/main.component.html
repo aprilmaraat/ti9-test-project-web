@@ -1,13 +1,30 @@
 <div>
-    <mat-grid-list cols="2" rowHeight="2:1" gutterSize="5px">
+    <mat-grid-list cols="4" rowHeight="200px" gutterSize="5px">
         <mat-grid-tile *ngFor="let item of clients">
             <div>
-                IP Address: {{item.ipAddress}} <br/>
-                OS: {{item.osVersion}} <br/>
-                Local time: {{getLocalTime()}}<br/>
-                Timezone: {{item.timeZone}} <br/>
-                Browser: {{item.browser}} <br/>
-                Resolution: {{item.resolution}} <br/>
+                <div style="height: 40px;">
+                    <mat-icon *ngIf="item.onlineStatus; else offline" aria-hidden="false" aria-label="Example home icon">check_circle</mat-icon>
+                    <ng-template #offline>
+                        <mat-icon aria-hidden="false" aria-label="Example home icon">highlight_off</mat-icon>
+                    </ng-template>
+                    
+                    IP Address: {{item.ipAddress}} <br/>
+                </div>
+                <div>
+                    OS: {{item.osVersion}} <br/>
+                </div>
+                <div>
+                    Local time: {{item.localTime}} <br/>
+                </div>
+                <div>
+                    Timezone: {{item.timeZone}} <br/> 
+                </div>
+                <div>
+                    Browser: {{item.browser}} <br/>
+                </div>
+                <div>
+                    Resolution: {{item.resolution}} <br/>
+                </div>
             </div>
         </mat-grid-tile>
     </mat-grid-list>

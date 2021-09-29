@@ -3,6 +3,7 @@ export class Client{
     ipAddress: string = '';
     osVersion: string = '';
     onlineStatus: boolean = false;
+    localTime: string = '';
     timeZone: string = '';
     browser: string = '';
     resolution: string = '';
