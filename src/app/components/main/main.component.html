@@ -1,8 +1,14 @@
 <div>
-    <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile>1</mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-        <mat-grid-tile>3</mat-grid-tile>
-        <mat-grid-tile>4</mat-grid-tile>
+    <mat-grid-list cols="2" rowHeight="2:1" gutterSize="5px">
+        <mat-grid-tile *ngFor="let item of clients">
+            <div>
+                IP Address: {{item.ipAddress}} <br/>
+                OS: {{item.osVersion}} <br/>
+                Local time: {{getLocalTime()}}<br/>
+                Timezone: {{item.timeZone}} <br/>
+                Browser: {{item.browser}} <br/>
+                Resolution: {{item.resolution}} <br/>
+            </div>
+        </mat-grid-tile>
     </mat-grid-list>
 </div>

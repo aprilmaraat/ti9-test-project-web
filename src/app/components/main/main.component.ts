@@ -17,7 +17,7 @@ export class MainComponent implements OnInit {
     public clientService: ClientService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.getIpAddress();
   }
 
   client: Client = new Client();
@@ -34,21 +34,27 @@ export class MainComponent implements OnInit {
     }, error => {
       console.error(error);
     });
-
-    this.getIpAddress();
   }
 
   getIpAddress(){
     this.http.get("http://api.ipify.org/?format=json").subscribe((data:any)=>{
       this.client.ipAddress = data.ip;
-      this.client.browser = window.navigator.userAgent;
+      // this.client.browser = window.navigator.userAgent;
+      this.client.browser = this.getBrowser();
       this.client.onlineStatus = true;
       // this.client.osVersion = window.navigator.appVersion;
       this.client.resolution = this.getScreenSize();
       this.client.timeZone = moment(new Date()).format('Z');
-      console.log(this.client);
-      console.log(window.navigator);
+      this.clientService.post(this.client, '').subscribe(data => {
+        console.log('Success: Data saved.');
+        this.loadData();
+      });
     });
+  }
+
+  getLocalTime(){
+    var localDate = new Date();
+    return moment(localDate).format('hh:mm a');
   }
 
   // Browser size
@@ -60,6 +66,23 @@ export class MainComponent implements OnInit {
   unloadHandler(event: Event) {
     this.client.onlineStatus = false;
     this.clientService.put(this.client, '').subscribe();
+  }
+
+  getBrowser() { 
+    if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) {
+        return 'Opera';
+    }else if(navigator.userAgent.indexOf("Chrome") != -1 ){
+        return 'Chrome';
+    }else if(navigator.userAgent.indexOf("Safari") != -1){
+        return 'Safari';
+    }else if(navigator.userAgent.indexOf("Firefox") != -1 ) {
+         return 'Firefox';
+    }else if((navigator.userAgent.indexOf("MSIE") != -1 )){
+      return 'IE'; 
+    }
+     else {
+       return 'unknown';
+    }
   }
 
 }
